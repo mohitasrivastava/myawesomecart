@@ -55,7 +55,7 @@ def productView(request, myid):
     product = Product.objects.filter(id=myid)
 
 
-    return render(request, 'shop/prodView.html', {'product':product[0]})
+    return render(request, 'shop/prodview.html', {'product':product[0]})
 
 
 def checkout(request):
@@ -71,6 +71,8 @@ def checkout(request):
 
         order = Orders(items_json= items_json, name=name, email=email, address= address, city=city, state=state, zip_code=zip_code, phone=phone)
         order.save()
+        update = OrderUpdate(order_id=order.order_id, update_desc="The order has been placed")
+        update.save()
         thank=True
         id=order.order_id
         return render(request, 'shop/checkout.html', {'thank':thank, 'id':id})
